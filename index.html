@@ -2,256 +2,293 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mines Game - Stylish</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Instagram Booster Panel</title>
   <style>
-    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif;}
     body {
-      background: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000 100%);
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
+      background: #0d0d0d;
+      font-family: 'Segoe UI', sans-serif;
+      color: #0ff;
+      text-align: center;
+      padding: 20px;
     }
-    .stars {
-      background: url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/img/stars.jpg') repeat;
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1; opacity: 0.2;
-      animation: moveStars 60s linear infinite;
+
+    h1 {
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      margin-bottom: 30px;
     }
-    @keyframes moveStars {
-      from {background-position: 0 0;}
-      to {background-position: -10000px 5000px;}
+
+    .neon-box {
+      background: #1a1a1a;
+      border: 1px solid #0ff;
+      box-shadow: 0 0 10px #0ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
     }
-    header, footer {text-align: center; padding: 1rem; background: rgba(0,0,0,0.4);}
-    .wallet {margin-top: 10px; font-size: 1.2rem; color: #0f0;}
-    .container {padding: 20px; max-width: 600px; margin: auto; text-align: center;}
-    .box-grid {display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0;}
-    .box {
-      background: #111; border: 2px solid #444; color: #fff;
-      padding: 20px; border-radius: 10px; cursor: pointer;
-      transition: all 0.2s ease-in-out;
-    }
-    .box:hover {transform: scale(1.05); background: #222;}
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 0; width: 100%; background: #111;
-      display: flex; justify-content: space-around; padding: 10px 0;
-    }
-    .bottom-nav button {
-      background: none; color: #fff; border: none; font-size: 1rem; cursor: pointer;
-    }
-    .note {font-size: 0.85rem; margin-top: 10px; color: #aaa;}
-    input, select, textarea {
-      padding: 8px; margin: 8px 0; border-radius: 8px; border: none;
-      width: 100%; background: #222; color: #fff;
-    }
-    .btn {
-      background: #0f0; color: #000; padding: 10px 20px;
-      border-radius: 10px; border: none; cursor: pointer;
+
+    select, input, button {
+      width: 100%;
+      padding: 12px;
       margin-top: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      outline: none;
     }
-    .cashout-effect {
-      position: absolute; color: #0f0; font-size: 1rem;
-      pointer-events: none;
+
+    select, input {
+      background: #000;
+      color: #0ff;
+      border: 1px solid #0ff;
     }
-    .withdraw-message {
-      background: #222; color: #0f0; padding: 10px; border-radius: 10px;
-      margin-top: 15px; font-size: 1rem;
+
+    button {
+      background: #0ff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #00f6ff;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .balance {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #0f0;
+    }
+
+    .order-history {
+      margin-top: 20px;
+      text-align: left;
+      color: #fff;
+    }
+
+    .order-history h3 {
+      text-align: center;
+      color: #0ff;
+    }
+
+    .order-item {
+      background: #262626;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+
+    .order-item span {
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div class="stars"></div>
-  <header>
-    <h2>Mines Game</h2>
-    <div class="wallet">Balance: ₹<span id="wallet">1000</span></div>
-  </header>
+  <h1>Instagram Booster (Neon SMM Panel)</h1>
 
-  <div class="container" id="main">
-    <label for="bet">Select Bet:</label>
-    <select id="bet">
-      <option value="10">₹10</option>
-      <option value="20">₹20</option>
-      <option value="50">₹50</option>
-      <option value="100">₹100</option>
+  <div class="neon-box">
+    <h2>Account Balance</h2>
+    <div class="balance" id="balanceDisplay">Loading...</div>
+  </div>
+
+  <div class="neon-box">
+    <h2>Place Order</h2>
+    <select id="serviceSelect">
+      <option value="">Loading services...</option>
     </select>
-    <button class="btn" onclick="startGame()">Start Game</button>
-
-    <div id="game" style="display:none;">
-      <div class="box-grid" id="boxes"></div>
-      <button class="btn" onclick="cashout()">Cashout</button>
-    </div>
-    <div class="note">Click boxes to avoid the boom 💥. Each correct box increases your reward. Cashout before hitting the boom!</div>
+    <input type="text" id="linkInput" placeholder="Enter Instagram Link"/>
+    <input type="number" id="quantityInput" placeholder="Enter Quantity"/>
+    <button onclick="placeOrder()">Place Order</button>
+    <div class="status" id="orderResponse"></div>
   </div>
 
-  <div class="container" id="deposit" style="display:none;">
-    <p>Pay to this UPI: <b>8979873681@mbk</b></p>
-    <input type="number" id="depositAmount" placeholder="Enter Amount (₹)">
-    <a id="upiLink" href="#" class="btn" target="_blank">Deposit Now</a>
-    <div class="note">After completing payment, click the button below to confirm.</div>
-    <button class="btn" onclick="confirmDeposit()">I've Paid</button>
-    <div class="note">Your deposit will be added to your wallet and shown in history.</div>
+  <div class="neon-box">
+    <h2>Check Order Status</h2>
+    <input type="text" id="orderIdInput" placeholder="Enter Order ID"/>
+    <button onclick="checkStatus()">Check Status</button>
+    <div class="status" id="statusResponse"></div>
   </div>
 
-  <div class="container" id="withdraw" style="display:none;">
-    <form id="withdrawForm">
-      <input type="text" name="UPI" placeholder="Enter your UPI ID" required>
-      <input type="number" name="amount" placeholder="Amount (₹)" required>
-      <input type="hidden" name="_subject" value="Withdraw Request">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <button type="submit" class="btn">Withdraw Now</button>
-    </form>
-    <div class="note">Withdrawals take up to 8 hours to process.</div>
-    <div id="withdrawMessage"></div>
-  </div>
-
-  <div class="container" id="history" style="display:none;">
-    <div id="historyList"></div>
-    <div class="note">Your game and transaction history will appear here.</div>
-  </div>
-
-  <footer>
-    <p>Enjoy the game responsibly!</p>
-  </footer>
-
-  <div class="bottom-nav">
-    <button onclick="showPage('deposit')">Deposit</button>
-    <button onclick="showPage('main')">Mines</button>
-    <button onclick="showPage('withdraw')">Withdraw</button>
-    <button onclick="showPage('history'); renderHistory();">All History</button>
+  <div class="neon-box order-history">
+    <h3>Order History</h3>
+    <div id="orderHistory"></div>
   </div>
 
   <script>
-    let wallet = parseInt(localStorage.getItem("wallet") || "0");
-    let bet = 0;
-    let currentMultiplier = 0;
-    let boomIndex = -1;
-    let history = JSON.parse(localStorage.getItem("history") || "[]");
+    const apiKey = 'eeb6f40f887af910324d8c6771519ce6';
+    const apiUrl = 'https://indiancheapsmm.in/api/v2';
 
-    const walletEl = document.getElementById("wallet");
+    window.onload = () => {
+      loadServices();
+      loadBalance();
+      loadOrderHistory();
+    };
 
-    function updateWallet() {
-      walletEl.textContent = wallet;
-      localStorage.setItem("wallet", wallet);
-    }
-
-    function showPage(id) {
-      ["main", "deposit", "withdraw", "history"].forEach(p => document.getElementById(p).style.display = "none");
-      document.getElementById(id).style.display = "block";
-    }
-
-    function startGame() {
-      bet = parseInt(document.getElementById("bet").value);
-      if (wallet < bet) return alert("Insufficient balance!");
-      wallet -= bet;
-      updateWallet();
-      currentMultiplier = 1;
-      boomIndex = Math.floor(Math.random() * 25);
-      const boxGrid = document.getElementById("boxes");
-      boxGrid.innerHTML = "";
-      for (let i = 0; i < 25; i++) {
-        const btn = document.createElement("div");
-        btn.className = "box";
-        btn.textContent = i + 1;
-        btn.onclick = () => openBox(i, btn);
-        boxGrid.appendChild(btn);
-      }
-      document.getElementById("game").style.display = "block";
-    }
-
-    function openBox(i, el) {
-      if (i === boomIndex) {
-        el.textContent = "💥";
-        el.style.background = "#f00";
-        alert("Boom! You lost.");
-        endGame();
-      } else {
-        const win = bet * currentMultiplier;
-        el.textContent = "+₹" + win;
-        el.style.background = "#0f0";
-        currentMultiplier++;
-        el.onclick = null;
-      }
-    }
-
-    function cashout() {
-      const gain = bet * (currentMultiplier - 1);
-      wallet += gain;
-      updateWallet();
-      spawnCrystalAnimation();
-      alert("You cashed out ₹" + gain);
-      endGame();
-    }
-
-    function endGame() {
-      document.getElementById("game").style.display = "none";
-    }
-
-    document.getElementById("depositAmount").addEventListener("input", function () {
-      const amount = this.value;
-      const upi = "8979873681@mbk";
-      const url = `upi://pay?pa=${upi}&pn=MinesGame&am=${amount}&cu=INR`;
-      document.getElementById("upiLink").href = url;
-    });
-
-    function confirmDeposit() {
-      const amt = parseInt(document.getElementById("depositAmount").value);
-      if (!amt || isNaN(amt)) return alert("Enter a valid amount first!");
-      wallet += amt;
-      updateWallet();
-      history.push({ type: "Deposit", amount: amt, time: new Date().toLocaleString() });
-      localStorage.setItem("history", JSON.stringify(history));
-      alert("Amount ₹" + amt + " added to your balance!");
-    }
-
-    document.getElementById("withdrawForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const data = new FormData(form);
-      const amount = parseInt(data.get("amount"));
-      if (wallet < amount) return alert("Insufficient balance!");
-      wallet -= amount;
-      updateWallet();
-      fetch("https://formspree.io/f/mqaqanbg", {
-        method: "POST",
-        headers: { 'Accept': 'application/json' },
-        body: data
-      }).then(() => {
-        document.getElementById("withdrawMessage").innerHTML = '<div class="withdraw-message">Withdraw request submitted with amount. You will receive the payment in 8 hours.</div>';
-        history.push({ type: "Withdraw", amount, time: new Date().toLocaleString() });
-        localStorage.setItem("history", JSON.stringify(history));
-        form.reset();
+    function loadServices() {
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          key: apiKey,
+          action: 'services'
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const select = document.getElementById('serviceSelect');
+        select.innerHTML = '<option value="">Select a service</option>';
+        data.forEach(service => {
+          if (service.category && service.category.toLowerCase().includes('instagram')) {
+            const option = document.createElement('option');
+            option.value = service.service;
+            option.textContent = `${service.name} (₹${service.rate}/1000)`;
+            select.appendChild(option);
+          }
+        });
+      })
+      .catch(() => {
+        document.getElementById('serviceSelect').innerHTML = '<option>Error loading services</option>';
       });
-    });
+    }
 
-    function renderHistory() {
-      const historyList = document.getElementById("historyList");
-      if (!history.length) {
-        historyList.innerHTML = "<p>No history to show.</p>";
+    function loadBalance() {
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          key: apiKey,
+          action: 'balance'
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.balance) {
+          document.getElementById('balanceDisplay').textContent = `₹${data.balance}`;
+        } else {
+          document.getElementById('balanceDisplay').textContent = 'Unable to fetch balance';
+        }
+      })
+      .catch(() => {
+        document.getElementById('balanceDisplay').textContent = 'Error fetching balance';
+      });
+    }
+
+    function placeOrder() {
+      const service = document.getElementById('serviceSelect').value;
+      const link = document.getElementById('linkInput').value.trim();
+      const quantity = document.getElementById('quantityInput').value.trim();
+
+      if (!service || !link || !quantity) {
+        alert('Please fill all fields.');
         return;
       }
-      historyList.innerHTML = history.map(h =>
-        `<div>🔹 <b>${h.type}</b>: ₹${h.amount} — <small>${h.time}</small></div>`
-      ).join("");
-    }
 
-    function spawnCrystalAnimation() {
-      const crystals = document.createElement("div");
-      crystals.className = "cashout-effect";
-      crystals.innerHTML = "💎💸";
-      document.body.appendChild(crystals);
-      gsap.fromTo(crystals, {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-        opacity: 1,
-      }, {
-        x: 60, y: 20, opacity: 0, duration: 1.2, onComplete: () => crystals.remove()
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          key: apiKey,
+          action: 'add',
+          service: service,
+          link: link,
+          quantity: quantity
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.order) {
+          document.getElementById('orderResponse').innerHTML = `Order Placed! ID: <b>${data.order}</b>`;
+          saveOrderHistory(data.order, service, link, quantity);
+        } else {
+          document.getElementById('orderResponse').innerHTML = `Error: ${JSON.stringify(data)}`;
+        }
+      })
+      .catch(() => {
+        document.getElementById('orderResponse').innerHTML = 'Error placing order.';
       });
     }
 
-    updateWallet();
+    function checkStatus() {
+      const orderId = document.getElementById('orderIdInput').value.trim();
+      if (!orderId) {
+        alert('Enter an Order ID');
+        return;
+      }
+
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({
+          key: apiKey,
+          action: 'status',
+          order: orderId
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status) {
+          document.getElementById('statusResponse').innerHTML = `
+            Status: <b>${data.status}</b><br>
+            Start: ${data.start_count}<br>
+            Remains: ${data.remains}
+          `;
+        } else {
+          document.getElementById('statusResponse').innerHTML = 'Invalid order ID.';
+        }
+      })
+      .catch(() => {
+        document.getElementById('statusResponse').innerHTML = 'Error checking status.';
+      });
+    }
+
+    function saveOrderHistory(orderId, serviceId, link, quantity) {
+      const order = {
+        orderId,
+        serviceId,
+        link,
+        quantity,
+        date: new Date().toLocaleString()
+      };
+
+      let history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+      history.unshift(order);
+      if (history.length > 10) history.pop();
+      localStorage.setItem('orderHistory', JSON.stringify(history));
+      loadOrderHistory();
+    }
+
+    function loadOrderHistory() {
+      const history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+      const container = document.getElementById('orderHistory');
+      container.innerHTML = '';
+
+      if (history.length === 0) {
+        container.innerHTML = '<p>No orders placed yet.</p>';
+        return;
+      }
+
+      history.forEach(order => {
+        const div = document.createElement('div');
+        div.className = 'order-item';
+        div.innerHTML = `
+          <span><strong>Order ID:</strong> ${order.orderId}</span>
+          <span><strong>Service ID:</strong> ${order.serviceId}</span>
+          <span><strong>Link:</strong> ${order.link}</span>
+          <span><strong>Quantity:</strong> ${order.quantity}</span>
+          <span><strong>Date:</strong> ${order.date}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
   </script>
 </body>
 </html>
